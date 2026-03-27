@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PDF + Android Code Viewer</title>
+<style>
+    body {
+        font-family: Arial;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
+    h2 {
+        margin-top: 30px;
+    }
+    iframe {
+        width: 80%;
+        height: 570px;
+        border: 1px solid #ccc;
+        margin-top: 10px;
+    }
+    .code-container {
+        position: relative;
+        width: 80%;
+        margin: 20px auto;
+        text-align: left;
+    }
+    pre {
+        background: #1e1e1e;
+        color: #00ffcc;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+    }
+    button.copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+    a.download-btn {
+        display: inline-block;
+        margin: 10px 0;
+        padding: 10px 20px;
+        background: #007BFF;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+    }
+    a.download-btn:hover {
+        background: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<h2>PDF Document</h2>
+<a href="sample.pdf" download class="download-btn">⬇ Download PDF</a>
+<iframe src="sample.pdf"></iframe>
+<h1> Explicit and Implicit Intent </h1>
+<h2>activity_main.xml</h2>
+<div class="code-container">
+    <button class="copy-btn" onclick="copyCode('code1')">Copy</button>
+    <pre id="code1">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".MainActivity"&gt;
+
+    &lt;Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Implicit Intent"
+        android:onClick="onImplicitButtonClicked"/&gt;
+
+    &lt;Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Explicit Intent"
+        android:onClick="onExplicitButtonClicked"/&gt;
+
+    &lt;Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CONTENT PROVIDER"
+        android:onClick="onActionButtonClicked"/&gt;
+
+&lt;/LinearLayout&gt;
+    </pre>
+</div>
+
+<h2>MainActivity.java</h2>
+<div class="code-container">
+    <button class="copy-btn" onclick="copyCode('code2')">Copy</button>
+    <pre id="code2">
+package com.prajwal.myapplication;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void onImplicitButtonClicked(View view) {
+        Uri url = Uri.parse("https://www.google.com");
+        Intent i = new Intent(Intent.ACTION_VIEW, url);
+        startActivity(i);
+    }
+
+    public void onExplicitButtonClicked(View view) {
+        Intent i = new Intent(MainActivity.this, newactivity.class);
+        startActivity(i);
+    }
+
+    public void onActionButtonClicked(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, ContactsContract.Contacts.CONTENT_URI);
+        startActivity(intent);
+    }
+}
+    </pre>
+</div>
+
+<h2>new_activity.xml</h2>
+<div class="code-container">
+    <button class="copy-btn" onclick="copyCode('code3')">Copy</button>
+    <pre id="code3">
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".newactivity"&gt;
+
+    &lt;TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Explicit Intent"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" /&gt;
+
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;
+    </pre>
+</div>
+
+<script>
+function copyCode(id) {
+    const codeText = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(codeText).then(() => {
+        alert("Code copied!");
+    });
+}
+</script>
+
+</body>
+</html>
